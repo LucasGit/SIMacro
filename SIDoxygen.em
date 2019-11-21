@@ -20,8 +20,6 @@
 	to your email name.  eg. set MYNAME=raygr
 -------------------------------------------------------------------------*/
 
-MYNAME = "Lucas"
-
 /*
 note:source insight 的宏扩展描述其实不需要分号的，这里增加分号是编程习惯
 */
@@ -76,7 +74,7 @@ macro getAuthor()
 	//var fAuthor;
 	//fAuthor=ASK("请输入作者姓名工号")；
 	//return fAuthor;
-	return "Xingtao Lu";
+	return "Lucas";
 }
 
 macro getCommentsTime()
@@ -282,7 +280,7 @@ macro InsertFileHeader()
 	InsBufLine(hbuf, line++,  "			XX  Module");
 	InsBufLine(hbuf, line++,  "*-");
 	InsBufLine(hbuf, line++,  "@@file 	@filename@");
-	InsBufLine(hbuf, line++,  "@@author Xingtao Lu");
+	InsBufLine(hbuf, line++,  "@@author @author@");
 	InsBufLine(hbuf, line++,  "@@date	@time@");
 	InsBufLine(hbuf, line++,  "@@brief	");
 	InsBufLine(hbuf, line++, "**************************************************************************/");
