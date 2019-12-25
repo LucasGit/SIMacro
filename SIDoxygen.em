@@ -286,7 +286,44 @@ macro InsertFileHeader()
 	InsBufLine(hbuf, line++, "**************************************************************************/");
 }
 
+macro InsertTimestamp()
+{
+	time	 = getCommentsTime();
+	hbuf 	 = GetCurrentBuf()
+	line     = GetBufLnCur(hbuf);
+	InsBufLine(hbuf, line  "@time@");
+}
 
+
+macro InsertComment1()
+{
+	hbuf = GetCurrentBuf()
+	line = GetBufLnCur(hbuf);
+	ln 	 = GetBufLnCur(hbuf); 
+	InsBufLine(hbuf, line  "/**  */");
+	SetBufIns(hbuf, ln, 4);
+}
+
+macro InsertComment2()
+{
+	hbuf = GetCurrentBuf()
+	line = GetBufLnCur(hbuf);
+	ln 	 = GetBufLnCur(hbuf); 
+	InsBufLine(hbuf, line  "/**<  */");
+	SetBufIns(hbuf, ln, 5);
+}
+
+macro InsertCommentTODO()
+{
+	time	 = getCommentsTime();
+	author   = getAuthor();
+	hbuf 	 = GetCurrentBuf()
+	ln 		 = GetBufLnCur(hbuf); 
+	line     = GetBufLnCur(hbuf);
+
+	InsBufLine(hbuf, line,  "/** TODO:  [@time@:@author@] */");
+	SetBufIns(hbuf, ln, 10);
+}
 
 // Inserts "Returns True .. or False..." at the current line
 macro ReturnTrueOrFalse()
@@ -329,6 +366,15 @@ macro InsertIfdef()
 		IfdefSz(sz);
 }
 
+// Ask user for ifdef condition and wrap it around current
+// selection.
+macro InsertIfndef()
+{
+	sz = Ask("Enter ifndef condition:")
+	if (sz != "")
+		IfndefSz(sz);
+}
+
 macro InsertCPlusPlus()
 {
 	IfdefSz("__cplusplus");
@@ -338,13 +384,26 @@ macro InsertCPlusPlus()
 // Wrap ifdef <sz> .. endif around the current selection
 macro IfdefSz(sz)
 {
-	hwnd = GetCurrentWnd()
-	lnFirst = GetWndSelLnFirst(hwnd)
-	lnLast = GetWndSelLnLast(hwnd)
-	 
 	hbuf = GetCurrentBuf()
-	InsBufLine(hbuf, lnFirst, "#ifdef @sz@")
-	InsBufLine(hbuf, lnLast+2, "#endif /* @sz@ */")
+	line = GetBufLnCur(hbuf);
+	 
+	InsBufLine(hbuf, line++, "#ifdef @sz@")
+	InsBufLine(hbuf, line++, "#endif /* @sz@ */")
+}
+
+
+// Wrap ifdef <sz> .. endif around the current selection
+macro IfndefSz(sz)
+{
+	hbuf = GetCurrentBuf()
+	line = GetBufLnCur(hbuf);
+	 
+	InsBufLine(hbuf, line++, "#ifndef @sz@")
+	InsBufLine(hbuf, line++, "#define @sz@")
+	InsBufLine(hbuf, line++, "")
+	InsBufLine(hbuf, line++, "")
+	InsBufLine(hbuf, line++, "")
+	InsBufLine(hbuf, line++, "#endif /* @sz@ */")
 }
 
 
