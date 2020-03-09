@@ -241,6 +241,8 @@ macro InsertFuntionHeader()
 	InsBufLine(hbuf, line++,  "@@Param 	[In]	");
 	InsBufLine(hbuf, line++,  "@@Param 	[Out]	");
 	InsBufLine(hbuf, line++,  "");
+	InsBufLine(hbuf, line++,  "@@retval  ");
+	InsBufLine(hbuf, line++,  "");
 	InsBufLine(hbuf, line++,  "@@author @author@");
 	InsBufLine(hbuf, line++,  "@@date	@time@");
 	InsBufLine(hbuf, line++,  "");
@@ -299,18 +301,20 @@ macro InsertComment1()
 {
 	hbuf = GetCurrentBuf()
 	line = GetBufLnCur(hbuf);
-	ln 	 = GetBufLnCur(hbuf); 
-	InsBufLine(hbuf, line  "/**  */");
-	SetBufIns(hbuf, ln, 4);
+	text = GetBufLine(hbuf, line);
+	ipos = strlen(text)
+	
+	SetBufIns(hbuf, line,ipos);
+	InsBufLine(hbuf, line,"@text@/**  */");
+	SetBufIns(hbuf, line, ipos + 4);
 }
 
 macro InsertComment2()
 {
 	hbuf = GetCurrentBuf()
 	line = GetBufLnCur(hbuf);
-	ln 	 = GetBufLnCur(hbuf); 
-	InsBufLine(hbuf, line  "/**<  */");
-	SetBufIns(hbuf, ln, 5);
+	InsBufLine(hbuf, line, "/**<  */");
+	SetBufIns(hbuf, line, 5);
 }
 
 macro InsertCommentTODO()
@@ -318,11 +322,10 @@ macro InsertCommentTODO()
 	time	 = getCommentsTime();
 	author   = getAuthor();
 	hbuf 	 = GetCurrentBuf()
-	ln 		 = GetBufLnCur(hbuf); 
 	line     = GetBufLnCur(hbuf);
 
 	InsBufLine(hbuf, line,  "/** TODO:  [@time@:@author@] */");
-	SetBufIns(hbuf, ln, 10);
+	SetBufIns(hbuf, line, 10);
 }
 
 // Inserts "Returns True .. or False..." at the current line
